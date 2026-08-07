@@ -1,0 +1,19 @@
+services:
+  rediska:
+    image: redis:8.8.0-alpine3.23
+    restart: always
+    container_name: rediska
+    command: redis-server --aclfile /etc/redis/users.acl && redis-server --appendonly yes
+    volumes:
+      - ./users.acl:/etc/redis/users.acl
+    ports:
+      - "0.0.0.0:6379:6379"
+
+  pg_db:
+    image: postgres:17-alpine3.23
+    container_name: pg_db
+    env_file:
+      - .env
+    restart: always
+    ports:
+      - "0.0.0.0:5432:5432"
