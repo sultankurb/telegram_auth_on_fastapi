@@ -2,6 +2,7 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from src.config.config import settings
+from src.config.exeptions import setup_exception_handlers
 
 app = FastAPI(
     title=settings.title,
@@ -9,6 +10,7 @@ app = FastAPI(
     version="0.0.1",
     debug=settings.DEBUG,
 )
+setup_exception_handlers(app)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.CORS_ALLOWED_ORIGINS,
