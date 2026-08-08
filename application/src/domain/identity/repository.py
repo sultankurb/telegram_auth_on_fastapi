@@ -12,8 +12,8 @@ class ProfileRepository(SQLAlchemyRepository[Profile]):
     def __init__(self, session: AsyncSession):
         super().__init__(session=session, model_cls=Profile)
 
-    async def find_by_id(self, telegram_id: int) -> Profile | None:
-        profile = await self._get_by_filter(self._model_cls.id == telegram_id)
+    async def find_by_id(self, id: int) -> Profile | None:
+        profile = await self._get_by_filter(self._model_cls.id == id)
         return profile
 
     async def exist(self, telegram_id: int) -> bool:
