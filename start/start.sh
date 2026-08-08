@@ -21,9 +21,9 @@ fi
 
 if [ ! -f "$CERT_DIR/private.pem" ]; then
     echo "Генерация приватного ключа..."
-    openssl genpkey -algorithm RSA -out "$CERT_DIR/private.pem" -pkeyopt rsa_keygen_bits:2048
+    openssl genpkey -algorithm RSA -out "$CERT_DIR/private-key.pem" -pkeyopt rsa_keygen_bits:2048
     echo "Генерация публичного ключа..."
-    openssl rsa -pubout -in "$CERT_DIR/private.pem" -out "$CERT_DIR/public.pem"
+    openssl rsa -pubout -in "$CERT_DIR/private.pem" -out "$CERT_DIR/public-key.pem"
     echo "Сертификаты успешно созданы."
 else
     echo "Сертификаты уже существуют."
