@@ -32,3 +32,8 @@ class TelegramLoginEntity(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class TokenEntity(BaseModel):
+    access_token: str = Field(..., description='Access token', min_length=1)
+    refresh_token: str = Field(..., description='Refresh token', min_length=1)
