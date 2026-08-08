@@ -35,12 +35,6 @@ def generate_telegram_auth_payload(
         secret_key, data_check_string.encode(), hashlib.sha256
     ).hexdigest()
 
-    return payload
-request = requests.post(
-    url="http://0.0.0.0:8000/api/auth/telegram",
-    json=generate_telegram_auth_payload()
-)
+    return payload["hash"]
 
 print(generate_telegram_auth_payload())
-print(request.status_code)
-print(request.json())
