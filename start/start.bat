@@ -31,6 +31,5 @@ if not exist "%CERT_DIR%\private.pem" (
 )
 
 echo Запуск docker-compose...
-docker compose -f "%PROJECT_ROOT%\docker\docker-compose.yml" up --build -d
 
 echo Скрипт завершен.

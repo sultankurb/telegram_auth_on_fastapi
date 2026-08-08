@@ -29,7 +29,4 @@ else
     echo "Сертификаты уже существуют."
 fi
 
-echo "Запуск docker-compose..."
-docker compose -f "$PROJECT_ROOT/docker/docker-compose.yml" up --build -d
-
 echo "Скрипт завершен."
