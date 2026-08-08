@@ -18,8 +18,8 @@ class JWTService:
         private_key: str = PRIVATE_KEY,
         public_key: str = PUBLIC_KEY,
         algorithm: str = settings.jwt.algorithm,
-        access_expire_minutes: timedelta = settings.jwt.access_expire_minutes,
-        refresh_expire_days: timedelta = settings.jwt.access_token_expire,
+        access_expire_minutes: timedelta = settings.jwt.access_token_expire,
+        refresh_expire_days: timedelta = settings.jwt.refresh_token_expire,
     ) -> None:
         self._private_key = private_key
         self._public_key = public_key

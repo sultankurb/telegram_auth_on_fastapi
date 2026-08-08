@@ -1,3 +1,7 @@
+from collections.abc import Mapping
+from typing import Any
+
+from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.infrastructure.database.base_repo import SQLAlchemyRepository
@@ -8,16 +12,33 @@ class ProfileRepository(SQLAlchemyRepository[Profile]):
     def __init__(self, session: AsyncSession):
         super().__init__(session=session, model_cls=Profile)
 
-    async def find_by_id(self, id: int) -> Profile | None:
-        profile = await self._get_by_filter(field=Profile.id, value=id)
+    async def find_by_id(self, telegram_id: int) -> Profile | None:
+        profile = await self._get_by_filter(self._model_cls.id == telegram_id)
         return profile
 
-    async def exist(self, id: int) -> bool:
-        result = await self._exists(field=Profile.id, value=id)
+    async def exist(self, telegram_id: int) -> bool:
+        result = await self._exists(self._model_cls.telegram_id == telegram_id)
         return result
 
-    async def create(self, profile: Profile) -> Profile:
-        pass
+    async def upsert_telegram_user(
+        self,
+        user_data: dict[str, Any],
+    ) -> Profile:
+        stmt = insert(self._model_cls).values(
+            telegram_id=user_data["telegram_id"],
+            first_name=user_data["first_name"],
+            username=user_data["username"],
+            photo_url=user_data["photo_url"],
+        )
 
-    async def update(self, profile: Profile) -> Profile:
-        pass
+        stmt = stmt.on_conflict_do_update(
+            index_elements=[self._model_cls.telegram_id],
+            set_={
+                "first_name": stmt.excluded.first_name,
+                "username": stmt.excluded.username,
+                "photo_url": stmt.excluded.photo_url,
+            },
+        ).returning(self._model_cls)
+
+        result = await self._session.execute(stmt)
+        return result.scalar_one()
