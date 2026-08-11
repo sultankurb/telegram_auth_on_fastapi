@@ -1,29 +1,32 @@
 import hashlib
 import hmac
+import json
 import time
 
-import requests
 from src.config.config import settings
-
-import json
 
 
 def generate_telegram_auth_payload(
     bot_token: str = settings.API_TOKEN,
-    user_id: int = 123456789,
+    telegram_id: int = 123456789,
     first_name: str = "Ivan",
     username: str | None = "ivan_dev",
     photo_url: str | None = "https://t.me/i/userpic/320/ivan.jpg",
+    auth_date: int | None = None
 ):
-    auth_date = int(time.time())
+    if auth_date is None:
+        auth_date = int(time.time())
+    
 
     payload = {
-        "telegram_id": user_id,
+        "id": telegram_id,
         "first_name": first_name,
-        "username": username,
-        "photo_url": photo_url,
         "auth_date": auth_date,
     }
+    if username is not None:
+        payload.update({"username": username})
+    if photo_url is not None:
+        payload.update({"photo_url": photo_url})
     payload = {k: v for k, v in payload.items() if v is not None}
 
     data_check_string = "\n".join(
@@ -35,6 +38,16 @@ def generate_telegram_auth_payload(
         secret_key, data_check_string.encode(), hashlib.sha256
     ).hexdigest()
 
-    return payload["hash"]
+    return json.dumps(payload)
 
-print(generate_telegram_auth_payload())
+telegram_id = int(input("Enter your Telegram ID: "))
+first_name = input("Enter your first name: ")
+username = input("Enter your username (optional): ")
+photo_url = input("Enter your photo URL (optional): ")
+
+print(generate_telegram_auth_payload(
+    telegram_id=telegram_id,
+    first_name=first_name,
+    username=username,
+    photo_url=photo_url,
+))

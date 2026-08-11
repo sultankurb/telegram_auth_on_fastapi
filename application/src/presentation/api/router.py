@@ -50,6 +50,10 @@ async def refresh(refresh_token: str, use_case: RefreshDepends):
 @router.post(path="/auth/logout", status_code=status.HTTP_204_NO_CONTENT)
 async def logout(
         token: Annotated[HTTPAuthorizationCredentials, Depends(security)],
+        payload: PayloadDepends,
         use_case: LogOutDepends
 ):
-    await use_case.execute(token=token.credentials)
+    await use_case.execute(
+        token=token.credentials, 
+        user_id=int(payload.get("sub"))
+    )

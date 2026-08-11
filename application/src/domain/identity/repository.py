@@ -1,4 +1,3 @@
-from collections.abc import Mapping
 from typing import Any
 
 from sqlalchemy.dialects.postgresql import insert
@@ -25,7 +24,7 @@ class ProfileRepository(SQLAlchemyRepository[Profile]):
         user_data: dict[str, Any],
     ) -> Profile:
         stmt = insert(self._model_cls).values(
-            telegram_id=user_data["telegram_id"],
+            telegram_id=user_data["id"],
             first_name=user_data["first_name"],
             username=user_data["username"],
             photo_url=user_data["photo_url"],

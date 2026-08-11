@@ -19,7 +19,7 @@ class ProfileReadEntity(BaseProfileEntity):
 
 
 class TelegramLoginEntity(BaseModel):
-    telegram_id: int = Field(..., description='Telegram user id', gt=0)
+    id: int = Field(..., description='Telegram user id', gt=0)
     username: str | None = Field(..., description='Username', min_length=1)
     first_name: str = Field(..., description='First name', min_length=1)
     photo_url: str | None = Field(..., description='Photo url')
