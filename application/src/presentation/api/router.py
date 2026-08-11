@@ -23,27 +23,27 @@ router = APIRouter(
     tags=["api"],
 )
 
+
 @router.get(
     path="/me",
     status_code=status.HTTP_200_OK,
-    response_model=ProfileReadEntity
+    response_model=ProfileReadEntity,
 )
 async def get_my_profile(
-        payload: PayloadDepends,
-        use_case: GetCurrentUserDepends
+    payload: PayloadDepends, use_case: GetCurrentUserDepends
 ):
     user_id = int(payload.get("sub"))
     user = await use_case.execute(user_id=user_id)
     return user
 
+
 @router.post(
     path="/auth/telegram",
     status_code=status.HTTP_201_CREATED,
-    response_model=TokenEntity
+    response_model=TokenEntity,
 )
 async def sign_in_by_telegram(
-        schema: TelegramLoginEntity,
-        login: LoginDepends
+    schema: TelegramLoginEntity, login: LoginDepends
 ):
     payload = schema.model_dump(exclude_none=True)
     verify = verify_telegram_data(data=payload)
@@ -54,22 +54,23 @@ async def sign_in_by_telegram(
     result = await login.execute(schema=payload)
     return result
 
+
 @router.post(
     path="/auth/refresh",
-    status_code=status.HTTP_200_OK, 
-    response_model=TokenEntity
+    status_code=status.HTTP_200_OK,
+    response_model=TokenEntity,
 )
 async def refresh(refresh_token: str, use_case: RefreshDepends):
     result = await use_case.execute(refresh_token=refresh_token)
     return result
 
+
 @router.post(path="/auth/logout", status_code=status.HTTP_204_NO_CONTENT)
 async def logout(
-        token: Annotated[HTTPAuthorizationCredentials, Depends(security)],
-        payload: PayloadDepends,
-        use_case: LogOutDepends
+    token: Annotated[HTTPAuthorizationCredentials, Depends(security)],
+    payload: PayloadDepends,
+    use_case: LogOutDepends,
 ):
     await use_case.execute(
-        token=token.credentials, 
-        user_id=int(payload.get("sub"))
+        token=token.credentials, user_id=int(payload.get("sub"))
     )

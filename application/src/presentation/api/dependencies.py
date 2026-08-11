@@ -14,17 +14,19 @@ from src.infrastructure.redis_connection import redis_client
 
 security = HTTPBearer()
 
+
 async def login_di() -> LoginUseCase:
     uow = ProfileUnitOfWork(session=session_factory)
     jwt = JWTService()
     return LoginUseCase(uow, jwt, redis=redis_client)
+
 
 async def get_payload(
     credentials: Annotated[HTTPAuthorizationCredentials, Depends(security)],
 ) -> dict:
     exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Could not validate credentials"
+        detail="Could not validate credentials",
     )
     token = credentials.credentials
     check = await redis_client.get(f"logout:token:{token}")
@@ -38,6 +40,7 @@ async def get_payload(
     except Exception:
         raise exception
 
+
 async def get_user_di() -> GerCurrentUserUseCase:
     uow = ProfileUnitOfWork(session=session_factory)
     return GerCurrentUserUseCase(uow=uow, redis=redis_client)
@@ -47,9 +50,7 @@ async def refresh_di() -> RefreshTokenUseCase:
     jwt_service = JWTService()
     uow = ProfileUnitOfWork(session=session_factory)
     return RefreshTokenUseCase(
-        uow=uow,
-        jwt_service=jwt_service,
-        redis=redis_client
+        uow=uow, jwt_service=jwt_service, redis=redis_client
     )
 
 

@@ -5,9 +5,9 @@ from redis.asyncio import Redis
 
 class JWTInterface(Protocol):
     async def create_user_session(
-            self,
-            user_id: int,
-            redis: Redis,
+        self,
+        user_id: int,
+        redis: Redis,
     ) -> dict:
         pass
 

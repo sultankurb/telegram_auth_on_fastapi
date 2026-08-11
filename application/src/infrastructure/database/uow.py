@@ -3,8 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 class BaseUnitOfWork:
     def __init__(
-            self,
-            session_maker: async_sessionmaker[AsyncSession]
+        self, session_maker: async_sessionmaker[AsyncSession]
     ) -> None:
         self.session_maker = session_maker
         self.session: AsyncSession | None = None

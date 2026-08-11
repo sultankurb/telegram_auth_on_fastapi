@@ -8,6 +8,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 PUBLIC_KEY_PATH = BASE_DIR / "certificates" / "public-key.pem"
 PRIVATE_KEY_PATH = BASE_DIR / "certificates" / "private-key.pem"
 
+
 class AppConfig(BaseSettings):
     DEBUG: bool = True
     DATABASE_URL: str = "sqlite:///db.sqlite3"

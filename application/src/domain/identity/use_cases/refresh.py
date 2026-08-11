@@ -8,10 +8,7 @@ from src.domain.identity.uow import ProfileUnitOfWork
 
 class RefreshTokenUseCase:
     def __init__(
-            self,
-            jwt_service: JWTInterface,
-            redis: Redis,
-            uow: ProfileUnitOfWork
+        self, jwt_service: JWTInterface, redis: Redis, uow: ProfileUnitOfWork
     ):
         self._jwt_service = jwt_service
         self._redis = redis

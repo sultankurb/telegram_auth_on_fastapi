@@ -23,8 +23,8 @@ class SQLAlchemyRepository[OrmModel]:
         return obj
 
     async def _get_by_filter(
-            self,
-            *conditions,
+        self,
+        *conditions,
     ) -> OrmModel | None:
         stmt = select(self._model_cls).where(*conditions)
         orm_obj = await self._scalar_one_or_none(stmt)
@@ -34,9 +34,7 @@ class SQLAlchemyRepository[OrmModel]:
         return await self._session.get(self._model_cls, id)
 
     async def _update(
-            self,
-            *conditions,
-            data: Mapping[str, Any]
+        self, *conditions, data: Mapping[str, Any]
     ) -> OrmModel | None:
         stmt = (
             update(self._model_cls)
@@ -58,10 +56,9 @@ class SQLAlchemyRepository[OrmModel]:
         return deleted is not None
 
     async def _exists(
-            self,
-            *conditions,
+        self,
+        *conditions,
     ) -> bool:
         stmt = select(exists().where(*conditions))
         result = await self._session.execute(stmt)
         return bool(result.scalar())
-

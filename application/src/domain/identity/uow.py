@@ -15,4 +15,3 @@ class ProfileUnitOfWork(BaseUnitOfWork):
             self._profile = ProfileRepository(self.session)
             return self._profile
         return self._profile
-    
