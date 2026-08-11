@@ -9,4 +9,5 @@ class Profile(Base):
     username: Mapped[str] = mapped_column(String, nullable=True)
     telegram_id: Mapped[int] = mapped_column(BigInteger, unique=True)
     first_name: Mapped[str] = mapped_column(String)
+    last_name: Mapped[str] = mapped_column(String, nullable=True)
     photo_url: Mapped[str] = mapped_column(String, nullable=True)

@@ -10,6 +10,7 @@ def generate_telegram_auth_payload(
     bot_token: str = settings.API_TOKEN,
     telegram_id: int = 123456789,
     first_name: str = "Ivan",
+    last_name: str | None = "Ivanov",
     username: str | None = "ivan_dev",
     photo_url: str | None = "https://t.me/i/userpic/320/ivan.jpg",
     auth_date: int | None = None
@@ -21,6 +22,7 @@ def generate_telegram_auth_payload(
     payload = {
         "id": telegram_id,
         "first_name": first_name,
+        "last_name": last_name,
         "auth_date": auth_date,
     }
     if username is not None:
@@ -42,12 +44,14 @@ def generate_telegram_auth_payload(
 
 telegram_id = int(input("Enter your Telegram ID: "))
 first_name = input("Enter your first name: ")
+last_name = input("Enter your last name (optional): ")
 username = input("Enter your username (optional): ")
 photo_url = input("Enter your photo URL (optional): ")
 
 print(generate_telegram_auth_payload(
     telegram_id=telegram_id,
     first_name=first_name,
+    last_name=last_name,
     username=username,
     photo_url=photo_url,
 ))

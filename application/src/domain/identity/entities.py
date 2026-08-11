@@ -7,6 +7,7 @@ class BaseProfileEntity(BaseModel):
     telegram_id: int = Field(..., description='Telegram user id', gt=0)
     username: str | None = Field(..., description="Username", min_length=1)
     first_name: str = Field(..., description="First name", min_length=1)
+    last_name: str | None = Field(..., description='Last name', min_length=1)
     photo_url: str | None = Field(..., description="Photo url")
 
     class Config:
@@ -22,6 +23,7 @@ class TelegramLoginEntity(BaseModel):
     id: int = Field(..., description='Telegram user id', gt=0)
     username: str | None = Field(..., description='Username', min_length=1)
     first_name: str = Field(..., description='First name', min_length=1)
+    last_name: str | None = Field(..., description='Last name', min_length=1)
     photo_url: str | None = Field(..., description='Photo url')
     hash: str = Field(
         ...,

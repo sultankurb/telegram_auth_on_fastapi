@@ -28,6 +28,7 @@ class ProfileRepository(SQLAlchemyRepository[Profile]):
             first_name=user_data["first_name"],
             username=user_data["username"],
             photo_url=user_data["photo_url"],
+            last_name=user_data["last_name"]
         )
 
         stmt = stmt.on_conflict_do_update(
@@ -36,6 +37,7 @@ class ProfileRepository(SQLAlchemyRepository[Profile]):
                 "first_name": stmt.excluded.first_name,
                 "username": stmt.excluded.username,
                 "photo_url": stmt.excluded.photo_url,
+                "last_name": stmt.excluded.last_name
             },
         ).returning(self._model_cls)
 
