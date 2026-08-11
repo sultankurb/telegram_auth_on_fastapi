@@ -8,6 +8,7 @@
  * docker-compose
  * python
  * curl
+ * python => 3.12
 
 ### Копируем репозиторий
 ```shell
@@ -16,23 +17,17 @@ git clone https://github.com/sultankurb/telegram_auth_on_fastapi.git
 cd telegram_auth_on_fastapi/
 ```
 
-### Дальше на линуксе даем права скрипту для подготовки
+### Вызываем скрипт для поднятия контейнеров
 ```shell
-chdmod +x start/*.sh
-./start/start.sh
+python3 start.py
+uv run start.py
 ```
 ### Предпоследний шаг
-Нужно в .env поменять API_TOKEN на токен вашего ю=бота в телеграм
-
-### Последний шаг
-```shell
-cd docker
-docker compose up --build
-```
+Нужно в .env поменять API_TOKEN на токен вашего бота в телеграм
 
 
 ## Использование
-### Для получения хэша как у телеграма нужно запустить файл по имени signature.py
+### Для получения json с хэшом как у телеграма нужно запустить файл по имени signature.py
 ```shell
 uv run application/signarute.py
 python3 application/signature.py
